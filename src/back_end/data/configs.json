@@ -1,0 +1,21 @@
+[
+  {
+    "userId": 1,
+    "config": {
+      "hOne": {
+        "color": "#1111dd",
+        "fontSize": "25px"
+      },
+      "hTwo": {
+        "color": "#11ff11",
+        "fontSize": "20px"
+      },
+      "p": {
+        "marginTop": "5px",
+        "marginBottom": "5px",
+        "color": "#232323",
+        "fontSize": "14px"
+      }
+    }
+  }
+]

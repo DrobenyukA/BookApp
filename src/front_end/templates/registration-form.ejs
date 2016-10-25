@@ -1,0 +1,32 @@
+<a href="#go-back" class="go-back waves-effect waves-blue btn">Назад</a>
+<section class="form-registration">
+    <h2>Будь ласка заповніть необхідні поля</h2>
+    <div class="row">
+        <div class="input-field col s8 offset-s2">
+            <input id="user-fname" type="text" name="fname"/>
+            <label for="user-fname">Ім'я:</label>
+        </div>
+        <div class="input-field col s8 offset-s2">
+            <input id="user-lname" type="text" name="lname"/>
+            <label for="user-lname">Прізвище</label>
+        </div>
+        <div class="input-field col s8 offset-s2">
+            <input id="user-email" type="email" name="email" onfocusout="UsersApp.isNewUser(this)"/>
+            <label for="user-email">Електронна пошта</label>
+            <span class="error email"></span>
+        </div>
+        <div class="input-field col s8 offset-s2">
+            <input id="user-password" type="password" name="password" />
+            <label for="user-password">Пароль</label>
+            <span class="error password"></span>
+        </div>
+        <div class="input-field col s8 offset-s2">
+            <input id="user-cpassword" type="password" name="confpassword" onfocusout="UsersApp.isSamePassword()" />
+            <span class="error password"></span>
+            <label for="user-cpassword">Підтвердження пароля</label>
+        </div>
+        <div class="input-field col s8 offset-s2">
+            <a href="#register" class="waves-effect red lighten-2 btn" onclick="UsersApp.registered()">Register</a>
+        </div>
+    </div>
+</section>
