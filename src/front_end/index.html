@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="description" content="BookApp, step_rv home task"/>
+    <meta name="keywords" content="BookApp, step_rv, home task">
+    <title>BookApp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/media.css"/>
+</head>
+<body id="book-app">
+<header>
+    <nav class="teal darken-2">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Book</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>
+                    <a href="#register" class="registration">Registration</a>
+                </li>
+                <li>
+                    <a class="modal-trigger" href="#login-form">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="app-body"></div>
+</main>
+
+<footer>
+    &copy; 2016 Made by Drobenyuk.A
+</footer>
+
+<div class="modals">
+    <div id='customize' class="modal" name="customize">
+        <div class="modal-content">
+            <section class="hOne">
+                <h5>Заголовок сторінки:</h5>
+                <div class="input-field">
+                    <label>Колір шрифта</label>
+                    <input type="text" name="color" placeholder="#26a69a or green"/>
+                </div>
+                <div class="input-field">
+                    <label>Розмір шрифта</label>
+                    <input type="text" name="fontSize" placeholder="10px or 200%"/>
+                </div>
+            </section>
+            <section class="hTwo">
+                <h5>Заголовок розділу:</h5>
+                <div class="input-field">
+                    <label>Колір шрифта</label>
+                    <input type="text" name="color" placeholder="#26a69a or green"/>
+                </div>
+                <div class="input-field">
+                    <label>Розмір< шрифта</label>
+                    <input type="text" name="fontSize" placeholder="10px or 200%"/>
+                </div>
+            </section>
+            <section class="paragraph">
+                <h5>Параграф:</h5>
+                <div class="input-field">
+                    <label>Верхній відступ</label>
+                    <input type="text" name="marginTop" placeholder="10px or 200%"/>
+                </div>
+                <div class="input-field">
+                    <label>Нижній відступ</label>
+                    <input type="text" name="marginBottom" placeholder="10px or 200%"/>
+                </div>
+                <div class="input-field">
+                    <label>Колір шрифта</label>
+                    <input type="text" name="color" placeholder="#26a69a or green"/>
+                </div>
+                <div class="input-field">
+                    <label>Розмір шрифта</label>
+                    <input type="text" name="fontSize" placeholder="10px or 200%"/>
+                </div>
+            </section>
+            <section class="pre">
+                <h5>Код:</h5>
+                <div class="input-field">
+                    <label>Фон</label>
+                    <input type="text" name="bgColor" placeholder="#26a69a or green"/>
+                </div>
+                <div class="input-field">
+                    <label>Колір шрифта</label>
+                    <input type="text" name="color" placeholder="#26a69a or green"/>
+                </div>
+                <div class="system">
+                    <h5>Системні слова</h5>
+                    <div class="input-field">
+                        <label>Колір шрифта</label>
+                        <input type="text" name="color" placeholder="#26a69a or green"/>
+                    </div>
+                </div>
+                <div class="function">
+                    <h5>Функції</h5>
+                    <div class="input-field">
+                        <label>Колір шрифта</label>
+                        <input type="text" name="color" placeholder="#26a69a or green"/>
+                    </div>
+                </div>
+                <div class="comments">
+                    <h5>Коментарі</h5>
+                    <div class="input-field">
+                        <label>Колір шрифта</label>
+                        <input type="text" name="color" placeholder="#26a69a or green"/>
+                    </div>
+                </div>
+                <div class="constructors">
+                    <h5>Конструктор</h5>
+                    <div class="input-field">
+                        <label>Колір шрифта</label>
+                        <input type="text" name="color" placeholder="#26a69a or green"/>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="modal-footer">
+            <a href="#save" id="save" class="modal-action modal-close waves-green btn-flat">
+                Save and apply
+            </a>
+        </div>
+    </div>
+    <div id='login-form' class="modal" name="login">
+        <div class="modal-content">
+            <label>Логін:</label>
+            <input type="email" name="login" placeholder="example@mail.com"/>
+            <label>Пароль</label>
+            <input type="password" name="passwd"/>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="UsersApp.authenticate()">Log in</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+<script type="text/javascript" src="js/templates.js"></script>
+<script type="text/javascript" src="js/bundle.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        'use strict';
+        window.BookApplication = new app.AppView();
+        $('.modal-trigger').leanModal();
+    });
+</script>
+</body>
+</html>
