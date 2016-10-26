@@ -35,7 +35,6 @@ module.exports = (function(){
                 return config[0];
             }            
         }
-        //return config;
     };
     
     return{

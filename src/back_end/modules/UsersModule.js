@@ -29,9 +29,14 @@ module.exports = (function (){
                 "email": guest.email,
                 "login": guest.email,
                 "password": guest.password
-            };
+            },
+            result = dbManager.saveData(path, newUser);
+        
+        if(result){
+            initialize();
+        }
 
-        return dbManager.saveData(path, newUser);
+        return result;
     };
 
     var authenticate = function (guest){

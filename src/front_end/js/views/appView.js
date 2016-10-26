@@ -5,12 +5,18 @@ app.AppView = Backbone.View.extend({
 
     templates: window.templates,
 
+    user: {
+        token: sessionStorage.getItem('token'),
+        user_name: sessionStorage.getItem('user_name')
+    },
+    
     events: {
         'click .registration': 'renderRegistrationForm',
         'click .go-back': 'render'
     },
 
     initialize: function () {
+        
         this.render()
     },
 
@@ -21,6 +27,21 @@ app.AppView = Backbone.View.extend({
     renderRegistrationForm: function(){
         var template = this.templates.get('registration-form');
         this.$el.find('.app-body').html(template);
+    },
+
+    switchUserView: function (){
+        $('#nav-mobile').html(this.templates.render('navigation-bar', this.user));
+        $('.modal-trigger').leanModal();
+
+    },
+    
+    renderUserConfig: function(){
+        if(this.user.token){
+            this.$el.append('<style></style>').html(this.templates.render('navigation-bar', this.config.attributes))
+        } else {
+           this.$el.remove('style').remove();
+        }
     }
+
 
 });

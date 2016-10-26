@@ -1,0 +1,24 @@
+<% if (it.token) {%>
+    <li>
+        Hello, <%= it.user_name %>
+    </li>
+    <li>
+        &emsp; &emsp;
+    </li>
+    <li>
+        <a href="#add-book" id="add-book" class="customize">Add Book</a>
+    </li>
+    <li>
+        <a href="#customize" class="modal-trigger customize">Customize</a>
+    </li>
+    <li>
+        <a href="#logout" onclick="UsersApp.logOut()">Logout</a>
+    </li>
+<%} else {%>
+    <li>
+        <a href="#register" class="registration">Registration</a>
+    </li>
+    <li>
+        <a class="modal-trigger" href="#login-form">Login</a>
+    </li>
+<% } %>

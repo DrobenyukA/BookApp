@@ -55,7 +55,6 @@ $(function () {
                     password: password
                 }
             }).done(function (data) {
-                console.log(data);
                 if (!data){
                     alert("Login failed");
                     return;
@@ -63,7 +62,7 @@ $(function () {
                 session = data;
                 sessionStorage.setItem('token', session.token);
                 sessionStorage.setItem('user_name', session.user_name);
-                loadConfig();
+                BookApplication.switchUserView();
             }).fail(function (error) {
                 alert('Server not respond!');
             });
@@ -79,6 +78,7 @@ $(function () {
 
         var logOut = function(){
             clearSession();
+            BookApplication.switchUserView();
         };
 
         var isNewUser = function(){
