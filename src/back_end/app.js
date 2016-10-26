@@ -30,7 +30,11 @@ app.post('/authenticate', function (req, res) {
 /* ==> Config routes <== */
 app.get('/config', function(req, res){
     var userId = usersModule.getUserId(req.headers.token);
-    res.send(configsModule.getUserConfig(req.body, userId));
+    res.send(configsModule.getUserConfig(userId));
+});
+app.post('/config', function(req, res){
+    var userId = usersModule.getUserId(req.headers.token);
+    res.send(configsModule.saveConfig(req.body, userId));
 });
 
 

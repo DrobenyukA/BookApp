@@ -78,10 +78,16 @@ module.exports = (function (){
                 user_name: user.getFullName(),
                 token: generateToken()
             };
+
         sessions.push(session);
 
         delete session.id;
-        delete session.user_id;
+        /**
+         * if delete session.user_id we will lose all users ID
+         * because we are deleting the item and in sessions array are only link to this item
+         */
+
+        //delete session.user_id;
 
         return session;
     };
@@ -134,9 +140,7 @@ module.exports = (function (){
     
     var getUserId = function (token){
         var userId = null;
-
         for (var i = 0; i < sessions.length; i++){
-
             if(token === sessions[i].token){
                 userId = sessions[i].user_id;
             }

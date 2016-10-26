@@ -37,9 +37,9 @@ gulp.task('less', function(){
 
 gulp.task('js', function () {
     return gulp.src([
-        './src/front_end/js/views/**',
         './src/front_end/js/models/**',
         './src/front_end/js/collections/**',
+        './src/front_end/js/views/**',
         './src/front_end/js/UserApp.js'
     ])
         .pipe(sourcemaps.init())

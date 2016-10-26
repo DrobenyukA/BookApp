@@ -1,9 +1,10 @@
-var dbManager = require('./../services/DataService');
+var dbManager = require('./../services/DataService'),
+            _ = require('lodash');
 
 module.exports = (function(){
 
     var saveConfig = function (data, userId){
-        var path = './back_end/data/configs.json',
+        var path = './data/configs.json',
             usersConfig = {
                 userId: userId,
                 config: data.config
@@ -11,12 +12,19 @@ module.exports = (function(){
             result = {
                 status: false,
                 message: 'Sorry, something went wrong. \n Please try again later.'
-            };
-                
+            },
+            firstConfig = true;
         if (userId){
-            dbManager.saveData(path, usersConfig);
+            _.forEach(dbManager.getData(path), function(item){
+                if(item.userId == userId){
+                    item.config = data.config;
+                    firstConfig = false;
+                }
+            });
+            if (firstConfig) {dbManager.saveData(path, usersConfig)}
             result.status = true;
-            result.message = "Your config was successfully saved!"
+            result.message = "Your config was successfully saved!";
+
         } else {
             result.message = "There is no such user";
         }
@@ -24,8 +32,8 @@ module.exports = (function(){
         return result;
     };
     
-    var getUserConfig = function(userName, userId){
-        var path    = './back_end/data/configs.json',
+    var getUserConfig = function(userId){
+        var path    = './data/configs.json',
             configs = dbManager.getData(path),
             config  = [];
 
