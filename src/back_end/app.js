@@ -2,7 +2,7 @@ var express       = require('express'),
     bodyParser    = require('body-parser'),
     usersModule   = require('./modules/UsersModule'),
     configsModule = require('./modules/ConfigModule'),
-    //book          = require('./modules/BookModule'),
+    book          = require('./modules/BookModule'),
     app           = express(),
     PORT          = 8000;
 
@@ -36,5 +36,18 @@ app.post('/config', function(req, res){
     var userId = usersModule.getUserId(req.headers.token);
     res.send(configsModule.saveConfig(req.body, userId));
 });
+
+/* ==> Book routes <== */
+       // /save-book
+app.post('/book', function (req, res) {
+    var userId = usersModule.getUserId(req.headers.token);
+    res.send(book.saveBook(req.body, userId));
+});
+
+app.get('/user-books', function(req, res){
+    var userId = usersModule.getUserId(req.headers.token);
+    res.send(book.getBook(userId));
+});
+
 
 

@@ -6,22 +6,47 @@ app.AppView = Backbone.View.extend({
 
     templates: window.templates,
 
+    booksCollection: new app.UserBooksCollection(),
+
+    selectedBook: null,
+
+    selectedChapter: null,
+
     events: {
         'click .go-back': 'render',
         'click .registration': 'renderRegistrationForm',
-        'click #save': 'saveConfig'
+        'click #save': 'saveConfig',
+        'click #add-book': 'addBook',
+        'click #add-paragraph': 'addParagraph',
+        'click .remove-paragraph':'removeParagraph'
     },
 
     initialize: function () {
+        this.listenTo(this.booksCollection, "update", this.render);
         this.render()
     },
 
     render: function () {
-        //TODO: chage template for logged user
+        var obj = this.getUser();
+        obj.books = {};
+        //TODO: change hello template
         this.$el.find('.app-body').html(this.templates.render('hello', {greet: 'hello world'}));
-        this.$el.find('#nav-mobile').html(this.templates.render('navigation-bar', this.getUser()));
+        this.$el.find('#nav-mobile').html(this.templates.render('navigation-bar', obj));
         this.applyStyles();
+        this.booksCollection.fetch({beforeSend: this.setHeader});
+        //modal initialization
         $('.modal-trigger').leanModal();
+        // Dropdown initialization
+        $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrain_width: false,
+                hover: true,
+                gutter: 0,
+                belowOrigin: false,
+                alignment: 'left'
+            }
+        );
     },
 
     setHeader : function (xhr){
@@ -93,6 +118,31 @@ app.AppView = Backbone.View.extend({
             alert('Server not respond!');
         });
 
+    },
+
+    addBook: function (){
+        this.$el.find('.app-body').html(this.templates.render('book-add-template', {}));
+    },
+
+    addParagraph: function(){
+        this.$el.find('#paragraphs').append(this.templates.render('template-paragraph', {}));
+
+    },
+
+    removeParagraph: function(event){
+        event.currentTarget.parentElement.remove();
+    },
+    //TODO: connect this to app
+    changePage: function(event){
+        var data = {
+            page: this.selectedBook.getPage(this.selectedChapter, parseInt(event.currentTarget.dataset.page) - 1),
+            pages: this.selectedBook.getChapter(this.selectedChapter).pages.length
+        };
+        console.log(data);
+
+        var template = _.template(this.$el.find('#page-content').html());
+
+        this.$el.find('.page-content').html(template(data));
     }
 
 
