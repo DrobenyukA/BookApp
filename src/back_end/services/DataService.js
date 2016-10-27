@@ -43,8 +43,28 @@ module.exports = (function(){
         return result
     };
 
+    var rewriteData = function(path, data){
+        var result = false;
+
+        try{
+            fs.writeFileSync(
+                path,
+                JSON.stringify(data),
+                { flag: 'w+' }
+            );
+        } catch(e) {
+
+            logger.logError('Failed save params to '+ path +' | params: ' + JSON.stringify(params));
+        }
+
+        result = true;
+
+        return result;
+    };
+
     return{
         getData: getData,
-        saveData: saveData
+        saveData: saveData,
+        rewriteData: rewriteData
     }
 })();

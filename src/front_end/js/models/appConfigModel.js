@@ -1,5 +1,5 @@
 var app = app || {};
 
-app.AppConfigModel = Backbone.Model.extend({
-    url: '/config'
+app.AppBookModel = Backbone.Model.extend({
+   
 });

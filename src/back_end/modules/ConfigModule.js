@@ -4,8 +4,9 @@ var dbManager = require('./../services/DataService'),
 module.exports = (function(){
 
     var saveConfig = function (data, userId){
-        var path = './data/configs.json',
-            usersConfig = {
+        var path = './../data/configs.json',
+            configs = dbManager.getData(path),
+            newConfig = {
                 userId: userId,
                 config: data.config
             },
@@ -15,13 +16,15 @@ module.exports = (function(){
             },
             firstConfig = true;
         if (userId){
-            _.forEach(dbManager.getData(path), function(item){
+            _.forEach(configs, function(item){
                 if(item.userId == userId){
                     item.config = data.config;
+                    console.log(configs);
+                    dbManager.rewriteData(path, configs);
                     firstConfig = false;
                 }
             });
-            if (firstConfig) {dbManager.saveData(path, usersConfig)}
+            if (firstConfig) {dbManager.saveData(path, newConfig)}
             result.status = true;
             result.message = "Your config was successfully saved!";
 
@@ -33,7 +36,7 @@ module.exports = (function(){
     };
     
     var getUserConfig = function(userId){
-        var path    = './data/configs.json',
+        var path    = './../data/configs.json',
             configs = dbManager.getData(path),
             config  = [];
 

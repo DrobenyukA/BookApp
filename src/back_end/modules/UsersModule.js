@@ -11,7 +11,7 @@ module.exports = (function (){
         sessions = [];
 
     var initialize = function (){
-        var path  = './data/users.json',
+        var path  = './../data/users.json',
             users = dbManager.getData(path);
 
         for (var i = 0; i < users.length; ++i) {
@@ -20,7 +20,7 @@ module.exports = (function (){
     };
 
     var registered = function(guest){
-        var path    = './data/users.json',
+        var path    = './../data/users.json',
             userId  = dbManager.getData(path).length + 1,
             newUser = {
                 "id": userId,

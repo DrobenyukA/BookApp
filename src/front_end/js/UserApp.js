@@ -62,7 +62,7 @@ $(function () {
                 session = data;
                 sessionStorage.setItem('token', session.token);
                 sessionStorage.setItem('user_name', session.user_name);
-                BookApplication.switchUserView();
+                BookApplication.render();
             }).fail(function (error) {
                 alert('Server not respond!');
             });
@@ -78,7 +78,7 @@ $(function () {
 
         var logOut = function(){
             clearSession();
-            BookApplication.switchUserView();
+            BookApplication.render();
         };
 
         var isNewUser = function(){

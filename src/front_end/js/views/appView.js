@@ -6,23 +6,22 @@ app.AppView = Backbone.View.extend({
 
     templates: window.templates,
 
-    configModel: new app.AppConfigModel(),
-
     events: {
         'click .go-back': 'render',
         'click .registration': 'renderRegistrationForm',
-        'click #save': 'saveConfig',
+        'click #save': 'saveConfig'
     },
 
     initialize: function () {
-        this.listenTo(this.configModel, "change", this.renderUserConfig);
         this.render()
     },
 
     render: function () {
         //TODO: chage template for logged user
         this.$el.find('.app-body').html(this.templates.render('hello', {greet: 'hello world'}));
-        this.switchUserView();
+        this.$el.find('#nav-mobile').html(this.templates.render('navigation-bar', this.getUser()));
+        this.applyStyles();
+        $('.modal-trigger').leanModal();
     },
 
     setHeader : function (xhr){
@@ -40,55 +39,60 @@ app.AppView = Backbone.View.extend({
             user_name: sessionStorage.getItem('user_name')
         }
     },
-
-    switchUserView: function (){
-        this.$el.find('#nav-mobile').html(this.templates.render('navigation-bar', this.getUser()));
-        $('.modal-trigger').leanModal();
-        this.configModel.fetch({beforeSend : this.setHeader});
-        //TODO fetch from collection
-        
-    },
     
-    renderUserConfig: function(){
+    applyStyles: function(){
         if(this.getUser().token){
-            this.$el.find('style').html(this.templates.render('config-styles', this.configModel.attributes))
+            $.ajax({
+                url: '/config',
+                method: 'GET',
+                headers:{
+                    token: this.getUser().token
+                }
+            }).done(function (data) {
+                BookApplication.$el.find('style').html(BookApplication.templates.render('config-styles', data))
+            }).fail(function (error) {
+                alert('Server not respond!');
+            });
+            
         } else {
            this.$el.find('style').html('');
-
         }
     },
 
     saveConfig: function(){
-        var config = {
-            hOne:{
+        var newConfig = {
+            hOne: {
                 color: this.$el.find('.hOne input[name="color"]').val(),
                 fontSize: this.$el.find('.hOne input[name="fontSize"]').val()
             },
-            hTwo:{
+            hTwo: {
                 color: this.$el.find('.hTwo input[name="color"]').val(),
                 fontSize: this.$el.find('.hTwo input[name="fontSize"]').val()
             },
-            p:{
+            p: {
                 marginTop: this.$el.find('.paragraph input[name="marginTop"]').val(),
                 marginBottom: this.$el.find('.paragraph input[name="marginBottom"]').val(),
                 color: this.$el.find('.paragraph input[name="color"]').val(),
                 fontSize: this.$el.find('.paragraph input[name="fontSize"]').val()
             }
         };
+
         $.ajax({
             url: '/config',
             method: 'POST',
-            headers:{token: sessionStorage.getItem('token')},
-            data: {config: config}
-        }).done(function (data) {
-            if(data.status){
-                BookApplication.configModel.fetch({beforeSend : this.setHeader});
-                console.log(this.configModel);
+            headers:{
+                token: this.getUser().token
+            },
+            data: {
+                config: newConfig
             }
-            alert(data.message)
+        }).done(function (data) {
+            alert(data.message);
+            BookApplication.applyStyles();
         }).fail(function (error) {
             alert('Server not respond!');
         });
+
     }
 
 
