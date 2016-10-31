@@ -1,22 +1,33 @@
-var dbManager = require('./../services/DataService');
+var dbManager = require('./../services/DataService'),
+            _ = require('lodash');
 
 module.exports = (function(){
 
     var saveConfig = function (data, userId){
-        var path = './back_end/data/configs.json',
-            usersConfig = {
+        var path = './../data/configs.json',
+            configs = dbManager.getData(path),
+            newConfig = {
                 userId: userId,
                 config: data.config
             },
             result = {
                 status: false,
                 message: 'Sorry, something went wrong. \n Please try again later.'
-            };
-                
+            },
+            firstConfig = true;
         if (userId){
-            dbManager.saveData(path, usersConfig);
+            _.forEach(configs, function(item){
+                if(item.userId == userId){
+                    item.config = data.config;
+                    console.log(configs);
+                    dbManager.rewriteData(path, configs);
+                    firstConfig = false;
+                }
+            });
+            if (firstConfig) {dbManager.saveData(path, newConfig)}
             result.status = true;
-            result.message = "Your config was successfully saved!"
+            result.message = "Your config was successfully saved!";
+
         } else {
             result.message = "There is no such user";
         }
@@ -24,8 +35,8 @@ module.exports = (function(){
         return result;
     };
     
-    var getUserConfig = function(userName, userId){
-        var path    = './back_end/data/configs.json',
+    var getUserConfig = function(userId){
+        var path    = './../data/configs.json',
             configs = dbManager.getData(path),
             config  = [];
 
@@ -35,7 +46,6 @@ module.exports = (function(){
                 return config[0];
             }            
         }
-        //return config;
     };
     
     return{

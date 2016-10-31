@@ -1,0 +1,11 @@
+<% if (it.quantity) {%>
+    <a class='dropdown-button customize' href='#' data-activates='user-books'>My books</a>
+    <ul id='user-books' class='dropdown-content'>
+        <% _.each(it.items, function (book){%>
+        <li>
+            <a href="#book" class="btn-book" data-book="<%=book.id%>"><%= book.name %> by <%= book.author %></a>
+        </li>
+        <li class="divider"></li>
+        <%}) %>
+    </ul>
+<% } else { alert('Please add some books'); }%>

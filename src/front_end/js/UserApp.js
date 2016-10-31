@@ -20,8 +20,7 @@ $(function () {
                 first_name: $('input[name="fname"]').val(),
                 last_name: $('input[name="lname"]').val()
             };
-
-            //TODO: change this if statement to validate function
+            
             if (isValidLogin(userData.email)
                     && isSamePassword(userData.password)
                     && userData.first_name
@@ -55,7 +54,6 @@ $(function () {
                     password: password
                 }
             }).done(function (data) {
-                console.log(data);
                 if (!data){
                     alert("Login failed");
                     return;
@@ -63,7 +61,7 @@ $(function () {
                 session = data;
                 sessionStorage.setItem('token', session.token);
                 sessionStorage.setItem('user_name', session.user_name);
-                loadConfig();
+                BookApplication.render();
             }).fail(function (error) {
                 alert('Server not respond!');
             });
@@ -79,6 +77,7 @@ $(function () {
 
         var logOut = function(){
             clearSession();
+            BookApplication.render();
         };
 
         var isNewUser = function(){
@@ -128,28 +127,6 @@ $(function () {
                 return false;
             }
         };
-
-        // TODO: remove this Backbone view
-        // var loadConfig = function(){
-        //     var user = sessionStorage.getItem('token');
-        //     if (user){
-        //         $.ajax({
-        //             url: '/loadconfig',
-        //             method: 'POST',
-        //             headers:{
-        //                 token: user
-        //             }
-        //         }).done(function (data) {
-        //             if(data){
-        //
-        //             } else {
-        //                 alert('You don`t have any configs!');
-        //             }
-        //         }).fail(function (error) {
-        //             alert('Server not respond!');
-        //         });
-        //     }
-        // };
 
         initialize();
 

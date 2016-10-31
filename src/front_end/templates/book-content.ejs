@@ -1,0 +1,20 @@
+<p class="right-align">
+    author:
+    <strong><%= it.author%></strong>
+</p>
+<h1><%= it.bookName %></h1>
+<h3><%= it.chapter%></h3>
+<div class="page-content">
+    <% _.each(it.page.paragraphs, function(paragraph){%>
+    <p><%=paragraph%></p>
+    <% }) %>
+    <ul class="pagination center-align">
+        <% for(var i = 1; i <= it.pages; i++){%>
+        <li <% if (it.page.number == i){ %> class="active"> <% } else { %> class="waves-effect"> <% } %>
+            <a class="page" href="#<%= i %>" data-page="<%= i %>">
+                <%= i %>
+            </a>
+        </li>
+        <% } %>
+    </ul>
+</div>
