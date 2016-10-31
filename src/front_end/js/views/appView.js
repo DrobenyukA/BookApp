@@ -18,35 +18,25 @@ app.AppView = Backbone.View.extend({
         'click #save': 'saveConfig',
         'click #add-book': 'addBook',
         'click #add-paragraph': 'addParagraph',
-        'click .remove-paragraph':'removeParagraph'
+        'click .remove-paragraph':'removeParagraph',
+        'click .btn-book': 'showBook'
     },
 
     initialize: function () {
-        this.listenTo(this.booksCollection, "update", this.render);
+        this.listenTo(this.booksCollection, "update", this.updateBook);
         this.render()
     },
 
     render: function () {
         var obj = this.getUser();
-        obj.books = {};
         //TODO: change hello template
         this.$el.find('.app-body').html(this.templates.render('hello', {greet: 'hello world'}));
         this.$el.find('#nav-mobile').html(this.templates.render('navigation-bar', obj));
         this.applyStyles();
         this.booksCollection.fetch({beforeSend: this.setHeader});
+
         //modal initialization
         $('.modal-trigger').leanModal();
-        // Dropdown initialization
-        $('.dropdown-button').dropdown({
-                inDuration: 300,
-                outDuration: 225,
-                constrain_width: false,
-                hover: true,
-                gutter: 0,
-                belowOrigin: false,
-                alignment: 'left'
-            }
-        );
     },
 
     setHeader : function (xhr){
@@ -64,7 +54,7 @@ app.AppView = Backbone.View.extend({
             user_name: sessionStorage.getItem('user_name')
         }
     },
-    
+
     applyStyles: function(){
         if(this.getUser().token){
             $.ajax({
@@ -120,13 +110,52 @@ app.AppView = Backbone.View.extend({
 
     },
 
+    addParagraph: function(){
+        this.$el.find('#paragraphs').append(this.templates.render('template-paragraph', {}));
+
+    },
+
     addBook: function (){
         this.$el.find('.app-body').html(this.templates.render('book-add-template', {}));
     },
 
-    addParagraph: function(){
-        this.$el.find('#paragraphs').append(this.templates.render('template-paragraph', {}));
+    updateBook: function(){
+        var books = this.booksCollection.getBooks();
+        this.$el.find('.user-books').html(this.templates.render('user-books', books));
+        // Dropdown initialization
+        $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrain_width: false,
+                hover: true,
+                gutter: 0,
+                belowOrigin: false,
+                alignment: 'left'
+            }
+        );
 
+        this.showBook();
+    },
+
+    showBook: function (action){
+        var data = {};
+
+        try{
+            data.bookId = parseInt(action.currentTarget.dataset.book)
+        } catch (err){
+            // TODO change this to method
+            data.bookId = 1;
+        }
+
+        this.selectedBook = this.booksCollection.get(data.bookId) || null;
+        data.bookName = this.selectedBook.get('name');
+        data.author = this.selectedBook.get('author');
+        data.chapter = this.selectedBook.defaultChapter().name;
+        data.page = this.selectedBook.defaultChapter().pages[0];
+        data.pages = this.selectedBook.defaultChapter().pages.length;
+        this.selectedChapter = this.selectedBook.defaultChapter().name;
+        console.log(data);
+        this.$el.find('.app-body').html(this.templates.render('book-content', data));
     },
 
     removeParagraph: function(event){

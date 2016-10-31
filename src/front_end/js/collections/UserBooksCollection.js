@@ -1,9 +1,7 @@
 var app = app || {};
 
 app.UserBooksCollection = Backbone.Collection.extend({
-
-    user: sessionStorage.getItem('token'),
-
+    
     model: app.BookModel,
 
     url: '/user-books',
@@ -23,6 +21,11 @@ app.UserBooksCollection = Backbone.Collection.extend({
         });
 
         return books;
+    },
+
+    selectedBook: function(bookId){
+        var id = bookId || _.first(this.models).id;
+        return this.get(id)
     }
 
 

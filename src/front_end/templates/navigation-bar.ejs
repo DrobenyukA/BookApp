@@ -8,19 +8,9 @@
     <li>
         <a href="#add-book" id="add-book" class="customize">Add Book</a>
     </li>
-    <% if (it.books.quantity) {%>
-        <li>
-            <a class='dropdown-button customize' href='#' data-activates='user-books'>My books</a>
-            <ul id='user-books' class='dropdown-content'>
-                <% _.each(books.items, function (book){%>
-                <li>
-                    <a href="#book" class="btn-book" data-book="<%=book.id%>"><%= book.name %> by <%= book.author %></a>
-                </li>
-                <li class="divider"></li>
-                <%}) %>
-            </ul>
-        </li>
-    <% } %>
+    <li class="user-books">
+
+    </li>
     <li>
         <a href="#customize" class="modal-trigger customize">Customize</a>
     </li>

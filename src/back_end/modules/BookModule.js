@@ -4,7 +4,7 @@
 var dbManager = require('./../services/DataService');
 
 module.exports = (function(){
-    var BOOKS_PATH = './back_end/data/books.json';
+    var BOOKS_PATH = './../data/books.json';
 
     var saveBook = function(data, userId){
 
@@ -19,14 +19,12 @@ module.exports = (function(){
     var getBook = function(userId){
         var books = dbManager.getData(BOOKS_PATH),
             result = [];
-        
         for(var i = 0; i < books.length; i++){
             if (books[i].userId == userId){
                 delete books[i].userId;
                 result.push(books[i]);
             }
         }
-        
         return result;
     };
     
