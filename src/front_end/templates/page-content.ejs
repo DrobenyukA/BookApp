@@ -1,9 +1,9 @@
-<% _.each(page.paragraphs, function(paragraph){%>
+<% _.each(it.page.paragraphs, function(paragraph){%>
 <p><%=paragraph%></p>
 <% }) %>
 <ul class="pagination center-align">
-    <% for(var i = 1; i <= pages; i++){%>
-    <li <% if (page.number == i){ %> class="active"> <% } else { %> class="waves-effect"> <% } %>
+    <% for(var i = 1; i <= it.pages; i++){%>
+    <li <% if (it.page.number == i){ %> class="active"> <% } else { %> class="waves-effect"> <% } %>
         <a class="page" href="#<%= i %>" data-page="<%= i %>">
             <%= i %>
         </a>

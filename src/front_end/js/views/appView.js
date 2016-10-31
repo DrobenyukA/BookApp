@@ -16,10 +16,12 @@ app.AppView = Backbone.View.extend({
         'click .go-back': 'render',
         'click .registration': 'renderRegistrationForm',
         'click #save': 'saveConfig',
-        'click #add-book': 'addBook',
         'click #add-paragraph': 'addParagraph',
         'click .remove-paragraph':'removeParagraph',
-        'click .btn-book': 'showBook'
+        'click #add-book': 'addBook',
+        'click .btn-book': 'showBook',
+        'click #save-book': 'saveBook',
+        'click .page': 'changePage'
     },
 
     initialize: function () {
@@ -29,7 +31,6 @@ app.AppView = Backbone.View.extend({
 
     render: function () {
         var obj = this.getUser();
-        //TODO: change hello template
         this.$el.find('.app-body').html(this.templates.render('hello', {greet: 'hello world'}));
         this.$el.find('#nav-mobile').html(this.templates.render('navigation-bar', obj));
         this.applyStyles();
@@ -115,6 +116,10 @@ app.AppView = Backbone.View.extend({
 
     },
 
+    removeParagraph: function(event){
+        event.currentTarget.parentElement.remove();
+    },
+
     addBook: function (){
         this.$el.find('.app-body').html(this.templates.render('book-add-template', {}));
     },
@@ -139,14 +144,11 @@ app.AppView = Backbone.View.extend({
 
     showBook: function (action){
         var data = {};
-
         try{
-            data.bookId = parseInt(action.currentTarget.dataset.book)
+            data.bookId = action.currentTarget.dataset.book;
         } catch (err){
-            // TODO change this to method
-            data.bookId = 1;
+            data.bookId = _.first(this.booksCollection.models).cid;
         }
-
         this.selectedBook = this.booksCollection.get(data.bookId) || null;
         data.bookName = this.selectedBook.get('name');
         data.author = this.selectedBook.get('author');
@@ -154,24 +156,46 @@ app.AppView = Backbone.View.extend({
         data.page = this.selectedBook.defaultChapter().pages[0];
         data.pages = this.selectedBook.defaultChapter().pages.length;
         this.selectedChapter = this.selectedBook.defaultChapter().name;
-        console.log(data);
         this.$el.find('.app-body').html(this.templates.render('book-content', data));
     },
 
-    removeParagraph: function(event){
-        event.currentTarget.parentElement.remove();
+    saveBook: function(){
+        var book = {},
+            chapter = {},
+            page = {},
+            element = $('#new-book');
+
+        book.name = $(element).find('#book-name').val();
+        book.author = $(element).find('#book-author').val();
+        book.chapters = [];
+
+        // gets one chapter
+        chapter.name = $(element).find('#chapter-name').val();
+        chapter.pages =[];
+
+        //gets first page
+        page.number = $(element).find('input[name="page"]').val();
+        page.paragraphs = [];
+
+        // gets paragraphs
+        paragraphs = $(element).find('textarea[name="paragraph"]');
+
+        _.each(paragraphs, function(el){
+            page.paragraphs.push($(el).val());
+        });
+        chapter.pages.push(page);
+        book.chapters.push(chapter);
+        this.booksCollection.add(book);
+        this.booksCollection.sync('create', this.booksCollection, {beforeSend: this.setHeader});
+
     },
-    //TODO: connect this to app
+
     changePage: function(event){
         var data = {
             page: this.selectedBook.getPage(this.selectedChapter, parseInt(event.currentTarget.dataset.page) - 1),
             pages: this.selectedBook.getChapter(this.selectedChapter).pages.length
         };
-        console.log(data);
-
-        var template = _.template(this.$el.find('#page-content').html());
-
-        this.$el.find('.page-content').html(template(data));
+        this.$el.find('.page-content').html(this.templates.render('page-content', data));
     }
 
 

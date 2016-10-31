@@ -16,15 +16,15 @@ app.UserBooksCollection = Backbone.Collection.extend({
             books.items.push({
                 name: model.get('name'),
                 author: model.get('author'),
-                id: model.get('id')
+                id: model.cid
             })
         });
 
         return books;
     },
 
-    selectedBook: function(bookId){
-        var id = bookId || _.first(this.models).id;
+    selectedBook: function(){
+        var id = _.first(this.models).id;
         return this.get(id)
     }
 

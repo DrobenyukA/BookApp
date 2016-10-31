@@ -49,5 +49,12 @@ app.get('/user-books', function(req, res){
     res.send(book.getBook(userId));
 });
 
+app.post('/user-books', function(req, res){
+    var userId = usersModule.getUserId(req.headers.token);
+    // console.log(req.body);
+    // console.log(userId);
+    res.send(book.saveBook(req.body, userId));
+});
+
 
 

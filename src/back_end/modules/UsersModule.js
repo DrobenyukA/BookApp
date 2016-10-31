@@ -121,7 +121,7 @@ module.exports = (function (){
         }
     };
 
-    // TODO: find out hiw this can be useful in project (see patter Decorator)
+    // TODO: find out how this function can be useful in project (see patter Decorator)
     // var authorize = function (request, response, action){
     //
     //     try{
